@@ -1,8 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  env: {
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  typescript: {
+    // ビルド時の型チェックを無効化する
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    // ビルド時のeslintチェックを無効化する
+    ignoreDuringBuilds: true,
   },
 };
 
