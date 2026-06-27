@@ -1,3 +1,8 @@
 export default function Settings() {
-  return ⚙️ 設定ログアウトやエクスポートなどを行います。
+  return (
+    <div style={{ padding: '20px' }}>
+      <h1><span>⚙️</span> 設定</h1>
+      <p>ログアウトやエクスポートなどを行います。</p>
+    </div>
+  )
 }
