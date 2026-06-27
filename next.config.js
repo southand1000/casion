@@ -3,9 +3,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // eslintの設定はここに書かずに、別の方法で無視させます
 };
 
 module.exports = nextConfig;
