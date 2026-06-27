@@ -1,50 +1,64 @@
-"use client";
-
 import Header from "@/app/components/layout/Header";
 import BottomNav from "@/app/components/layout/BottomNav";
-import ProjectCard from "@/app/projects/ProjectCard";
 
-const dummyProjects = [
-  {
-    id: 1,
-    title: "KING",
-    client: "〇〇様",
-    price: 2000,
-    status: "working" as const,
-    dueDate: "2026-07-10",
-    tags: ["フル", "ボカロ"],
-  },
-  {
-    id: 2,
-    title: "青と夏",
-    client: "△△様",
-    price: 1500,
-    status: "proposal" as const,
-    dueDate: "2026-07-12",
-    tags: ["ワンコーラス"],
-  },
-  {
-    id: 3,
-    title: "少女レイ",
-    client: "□□様",
-    price: 3000,
-    status: "consult" as const,
-    dueDate: "",
-    tags: ["デュエット"],
-  },
-];
+import StatsCard from "@/app/components/dashboard/StatsCard";
+import StatusCard from "@/app/components/dashboard/StatusCard";
+import DeadlineCard from "@/app/components/dashboard/DeadlineCard";
+import GanttChart from "@/app/components/dashboard/GanttChart";
 
-export default function ProjectsPage() {
+import { Wallet, Package, ClipboardList } from "lucide-react";
+
+import { dashboardData } from "@/lib/mockData";
+
+export default function Home() {
   return (
     <>
-      <Header title="案件管理" subtitle="Projects" />
+      <Header
+        title="ダッシュボード"
+        subtitle="Casion"
+      />
 
-      <main className="space-y-4 p-5 pb-28">
-        {dummyProjects.map((p) => (
-          <ProjectCard key={p.id} {...p} />
-        ))}
+      <main className="space-y-5 p-5 pb-28">
+
+        <section className="grid grid-cols-1 gap-4">
+
+          <StatsCard
+            title="過去30日の実収入"
+            value={`¥${dashboardData.stats.revenue30.toLocaleString()}`}
+            icon={<Wallet size={24} />}
+          />
+
+          <StatsCard
+            title="過去30日の受注件数"
+            value={dashboardData.stats.orders30}
+            icon={<ClipboardList size={24} />}
+          />
+
+          <StatsCard
+            title="過去30日の納品件数"
+            value={dashboardData.stats.delivered30}
+            icon={<Package size={24} />}
+          />
+
+        </section>
+
+        <StatusCard
+          {...dashboardData.status}
+        />
+
+        <DeadlineCard
+          projects={dashboardData.deadlines}
+        />
+
+        <GanttChart
+          items={dashboardData.gantt}
+        />
+
       </main>
 
-      <BottomNav />
+      <BottomNav
+        projectBadge={dashboardData.status.working}
+      />
     </>
+  );
 }
