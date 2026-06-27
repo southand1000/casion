@@ -2,12 +2,15 @@
   "name": "casion",
   "version": "0.1.0",
   "private": true,
+  
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+  "dev": "next dev",
+  "build": "next build --no-turbopack",
+  "start": "next start",
+  "lint": "next lint"
+}
   },
+  
   "dependencies": {
     "next": "latest",
     "react": "latest",
