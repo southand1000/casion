@@ -8,7 +8,7 @@ import GanttChart from "@/app/components/dashboard/GanttChart";
 
 import { Wallet, Package, ClipboardList } from "lucide-react";
 
-import { dashboardData } from "@/app/lib/mockData";
+import { dashboardData } from "@/lib/mockData";
 
 export default function Home() {
   return (
