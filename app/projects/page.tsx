@@ -2,7 +2,7 @@
 
 import Header from "@/app/components/layout/Header";
 import BottomNav from "@/app/components/layout/BottomNav";
-import ProjectCard from "@/app/components/projects/ProjectCard";
+import ProjectCard from "@/app/projects/ProjectCard";
 
 const dummyProjects = [
   {
@@ -47,5 +47,4 @@ export default function ProjectsPage() {
 
       <BottomNav />
     </>
-  );
 }
