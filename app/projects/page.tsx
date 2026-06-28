@@ -1,18 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 
 import Header from "@/app/components/layout/Header";
 import BottomNav from "@/app/components/layout/BottomNav";
 
 import ProjectCard from "@/app/projects/ProjectCard";
-import ProjectModal from "@/app/projects/ProjectModal";
 
 import { projects } from "@/lib/mock/projects";
 
 export default function ProjectsPage() {
-  const [open, setOpen] = useState(false);
-
   return (
     <>
       <Header
@@ -22,13 +19,15 @@ export default function ProjectsPage() {
 
       <main className="space-y-5 p-5 pb-28">
 
-        <button
-          onClick={() => setOpen(true)}
+        <Link
+          href="/projects/new"
           className="
+            block
             w-full
             rounded-2xl
             bg-primary
             py-4
+            text-center
             font-semibold
             text-primary-foreground
             shadow-sm
@@ -37,7 +36,7 @@ export default function ProjectsPage() {
           "
         >
           ＋ 案件を追加
-        </button>
+        </Link>
 
         <section className="space-y-4">
 
@@ -54,12 +53,8 @@ export default function ProjectsPage() {
 
       </main>
 
-      <ProjectModal
-        open={open}
-        onClose={() => setOpen(false)}
-      />
-
       <BottomNav />
+
     </>
   );
 }
