@@ -1,3 +1,5 @@
+"use client";
+
 import Header from "@/app/components/layout/Header";
 import ProjectForm from "@/app/projects/ProjectForm";
 
