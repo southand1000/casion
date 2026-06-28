@@ -1,72 +1,79 @@
 "use client";
 
-import { useState } from "react";
+import ProjectForm, {
+  ProjectFormData,
+} from "@/app/projects/ProjectForm";
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  initialData?: Partial<ProjectFormData>;
+  mode?: "create" | "edit";
 }
 
 export default function ProjectModal({
   open,
   onClose,
+  initialData,
+  mode = "create",
 }: Props) {
-  const [client, setClient] = useState("");
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
 
   if (!open) return null;
 
+  function handleSubmit(data: ProjectFormData) {
+    console.log(data);
+
+    // 次回ここでSupabase保存
+
+    onClose();
+  }
+
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50">
 
-      <div className="w-full rounded-t-3xl bg-background p-6">
+      <div
+        className="
+          max-h-[92vh]
+          w-full
+          overflow-y-auto
+          rounded-t-3xl
+          bg-background
+          p-6
+        "
+      >
 
-        <h2 className="mb-5 text-xl font-bold">
-          案件追加
-        </h2>
+        <div className="mb-6 flex items-center justify-between">
 
-        <div className="space-y-4">
-
-          <input
-            placeholder="クライアント名"
-            value={client}
-            onChange={(e)=>setClient(e.target.value)}
-            className="w-full rounded-xl border p-3"
-          />
-
-          <input
-            placeholder="曲名"
-            value={title}
-            onChange={(e)=>setTitle(e.target.value)}
-            className="w-full rounded-xl border p-3"
-          />
-
-          <input
-            placeholder="提示価格"
-            value={price}
-            onChange={(e)=>setPrice(e.target.value)}
-            className="w-full rounded-xl border p-3"
-          />
-
-        </div>
-
-        <div className="mt-8 flex gap-3">
+          <h2 className="text-xl font-bold">
+            {mode === "create"
+              ? "案件追加"
+              : "案件編集"}
+          </h2>
 
           <button
-            className="flex-1 rounded-xl border py-3"
             onClick={onClose}
+            className="
+              rounded-lg
+              px-3
+              py-2
+              text-sm
+              hover:bg-muted
+            "
           >
-            キャンセル
-          </button>
-
-          <button
-            className="flex-1 rounded-xl bg-primary py-3 text-primary-foreground"
-          >
-            保存
+            ✕
           </button>
 
         </div>
+
+        <ProjectForm
+          initialData={initialData}
+          onSubmit={handleSubmit}
+          submitLabel={
+            mode === "create"
+              ? "案件を追加"
+              : "変更を保存"
+          }
+        />
 
       </div>
 
