@@ -1,91 +1,139 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { Badge } from "@/app/components/ui/Badge";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-export type ProjectStatus =
-  | "consult"
-  | "proposal"
-  | "working"
-  | "delivered";
+import { Project } from "@/types/project";
+import { getClientName } from "@/lib/client";
 
-interface ProjectCardProps {
-  id: number;
-  title: string;
-  client: string;
-  price: number;
-  status: ProjectStatus;
-  dueDate?: string;
-  tags?: string[];
+interface Props {
+  project: Project;
 }
 
-const statusStyle = {
-  consult: "bg-gray-100 text-gray-700",
-  proposal: "bg-sky-100 text-sky-700",
-  working: "bg-orange-100 text-orange-700",
-  delivered: "bg-green-100 text-green-700",
-};
-
-const statusLabel = {
-  consult: "相談",
-  proposal: "提案",
-  working: "作業中",
-  delivered: "納品",
+const statusMap = {
+  consult: {
+    label: "相談",
+    color: "bg-slate-200 text-slate-700",
+  },
+  proposal: {
+    label: "提案",
+    color: "bg-amber-100 text-amber-700",
+  },
+  working: {
+    label: "作業",
+    color: "bg-cyan-100 text-cyan-700",
+  },
+  delivered: {
+    label: "納品",
+    color: "bg-emerald-100 text-emerald-700",
+  },
 };
 
 export default function ProjectCard({
-  id,
-  title,
-  client,
-  price,
-  status,
-  dueDate,
-  tags = [],
-}: ProjectCardProps) {
-  const router = useRouter();
+  project,
+}: Props) {
+
+  const status = statusMap[project.status];
+  const clientName = getClientName(project.clientId);
 
   return (
-    <div
-      onClick={() => router.push(`/projects/${id}`)}
-      className="
-        rounded-2xl border border-border bg-card p-4 shadow-sm
-        transition hover:scale-[1.01] active:scale-[0.99]
-        cursor-pointer
-      "
-    >
-      {/* ヘッダー */}
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-base font-semibold">{title}</p>
-          <p className="text-xs text-muted-foreground">{client}</p>
+    <Link href={`/projects/${project.id}`}>
+      <div
+        className="
+          rounded-2xl
+          border
+          border-border
+          bg-card
+          p-5
+          shadow-sm
+          transition-all
+          hover:shadow-md
+          hover:-translate-y-0.5
+          cursor-pointer
+        "
+      >
+        <div className="flex items-start justify-between">
+
+          <div>
+
+            <h3 className="text-lg font-semibold">
+              {project.title}
+            </h3>
+
+            <p className="mt-1 text-sm text-muted-foreground">
+              {clientName}
+            </p>
+
+          </div>
+
+          <span
+            className={`
+              rounded-full
+              px-3
+              py-1
+              text-xs
+              font-medium
+              ${status.color}
+            `}
+          >
+            {status.label}
+          </span>
+
         </div>
 
-        <span className={cn("rounded-full px-3 py-1 text-xs font-bold", statusStyle[status])}>
-          {statusLabel[status]}
-        </span>
-      </div>
+        <div className="mt-5 flex items-center justify-between">
 
-      {/* 金額 */}
-      <div className="mt-3 text-lg font-bold">
-        ¥{price.toLocaleString()}
-      </div>
+          <div>
 
-      {/* 期限 */}
-      {dueDate && (
-        <p className="mt-1 text-xs text-muted-foreground">
-          納期：{dueDate}
-        </p>
-      )}
+            <p className="text-xs text-muted-foreground">
+              提示価格
+            </p>
 
-      {/* タグ */}
-      {tags.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <Badge key={tag}>{tag}</Badge>
-          ))}
+            <p className="font-bold">
+              ¥{project.price.toLocaleString()}
+            </p>
+
+          </div>
+
+          <div>
+
+            <p className="text-xs text-muted-foreground">
+              納期
+            </p>
+
+            <p className="font-medium">
+              {project.deliveryDate || "-"}
+            </p>
+
+          </div>
+
         </div>
-      )}
-    </div>
+
+        {project.tags.length > 0 && (
+
+          <div className="mt-4 flex flex-wrap gap-2">
+
+            {project.tags.map((tag) => (
+
+              <span
+                key={tag}
+                className="
+                  rounded-full
+                  bg-secondary
+                  px-2
+                  py-1
+                  text-xs
+                "
+              >
+                #{tag}
+              </span>
+
+            ))}
+
+          </div>
+
+        )}
+
+      </div>
+    </Link>
   );
 }

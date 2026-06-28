@@ -41,7 +41,7 @@ export default function ProjectsPage() {
         {projects.map((project) => (
           <ProjectCard
             key={project.id}
-            {...project}
+            project={project}
           />
         ))}
       </main>

@@ -1,64 +1,65 @@
+"use client";
+
+import { useState } from "react";
+
 import Header from "@/app/components/layout/Header";
 import BottomNav from "@/app/components/layout/BottomNav";
 
-import StatsCard from "@/app/components/dashboard/StatsCard";
-import StatusCard from "@/app/components/dashboard/StatusCard";
-import DeadlineCard from "@/app/components/dashboard/DeadlineCard";
-import GanttChart from "@/app/components/dashboard/GanttChart";
+import ProjectCard from "@/app/projects/ProjectCard";
+import ProjectModal from "@/app/projects/ProjectModal";
 
-import { Wallet, Package, ClipboardList } from "lucide-react";
+import { projects } from "@/lib/mock/projects";
 
-import { dashboardData } from "@/lib/mockData";
+export default function ProjectsPage() {
+  const [open, setOpen] = useState(false);
 
-export default function Home() {
   return (
     <>
       <Header
-        title="ダッシュボード"
-        subtitle="Casion"
+        title="案件管理"
+        subtitle="Projects"
       />
 
       <main className="space-y-5 p-5 pb-28">
 
-        <section className="grid grid-cols-1 gap-4">
+        <button
+          onClick={() => setOpen(true)}
+          className="
+            w-full
+            rounded-2xl
+            bg-primary
+            py-4
+            font-semibold
+            text-primary-foreground
+            shadow-sm
+            transition
+            hover:opacity-90
+          "
+        >
+          ＋ 案件を追加
+        </button>
 
-          <StatsCard
-            title="過去30日の実収入"
-            value={`¥${dashboardData.stats.revenue30.toLocaleString()}`}
-            icon={<Wallet size={24} />}
-          />
+        <section className="space-y-4">
 
-          <StatsCard
-            title="過去30日の受注件数"
-            value={dashboardData.stats.orders30}
-            icon={<ClipboardList size={24} />}
-          />
+          {projects.map((project) => (
 
-          <StatsCard
-            title="過去30日の納品件数"
-            value={dashboardData.stats.delivered30}
-            icon={<Package size={24} />}
-          />
+            <ProjectCard
+              key={project.id}
+              project={project}
+            />
+
+          ))}
 
         </section>
 
-        <StatusCard
-          {...dashboardData.status}
-        />
-
-        <DeadlineCard
-          projects={dashboardData.deadlines}
-        />
-
-        <GanttChart
-          items={dashboardData.gantt}
-        />
-
       </main>
 
-      <BottomNav
-        projectBadge={dashboardData.status.working}
+      <ProjectModal
+        open={open}
+        onClose={() => setOpen(false)}
       />
+
+      <BottomNav />
     </>
   );
 }
